@@ -1,14 +1,17 @@
 # Environment
 Documentation for setting up a new environment
 
-- [Taskbar eliminator](http://www.aviassin.com/taskbareliminator)
-- [Vista swticher](http://www.ntwind.com/software/vistaswitcher.html)
-- Pycharm
-- Conemu
-- git + minGw
+## Home box
 - [dotfiles](https://github.com/Hernrup/dotfiles)
-- [pycharm settings](https://github.com/Hernrup/dotfiles)
-- Python
-- NodeJs
-- npm
-- Sourcetree
+
+## Work box
+- [dotfiles](https://github.com/Hernrup/dotfiles)
+
+## SRV
+- Filezilla ftp server
+- SyncBackPro backup solution
+  - Fetch backup settings from any of the backup locations
+- Nginx proxy for internal service name lookup
+- CouchPotatoe
+- Sonarr
+- SABnzbd
