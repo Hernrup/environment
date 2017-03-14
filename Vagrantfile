@@ -38,9 +38,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Don't boot with headless mode
     # vb.gui = true
 
-    # Use VBoxManage to customize the VM. For example to change memory:
-    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    # RAM
+    vb.customize ["modifyvm", :id, "--memory", "3048"]
+
+    # CPU cap
     vb.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
+
+    # Monitors
+    vb.customize ["modifyvm", :id, "--monitorcount", "2"]
+
+    # Video memory
+    # vb.customize ["modifyvm", :id, "--vram", "64"]
+
+    # Add cdrom drive
+    # vb.customize ["storagectl", :id, "--name", "IDEController", "--add", "ide"]
+    # vb.customize ["storageattach", :id, "--storagectl", "IDEController", "--port", "0",
+                  # "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
+    # vb.customize ["modifyvm", :id, "--boot1", "disk", "--boot2", "dvd"]
   end
 
   # Masterless salt configuration
