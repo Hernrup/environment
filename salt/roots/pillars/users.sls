@@ -1,7 +1,8 @@
 users:
-  rob:
+  mhe:
     state: present
     fullname: MHE
+    empty_password: True
     shell: /bin/zsh
     home: /home/mhe
     uid: 4000
