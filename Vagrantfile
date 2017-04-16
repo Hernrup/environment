@@ -3,76 +3,92 @@
 #
 #
 
-require 'win32ole'
 
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  # All Vagrant configuration is done here. The most common configuration
-  # options are documented and commented below. For a complete reference,
-  # please see the online documentation at vagrantup.com.
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/xenial64"
+  config.vm.define :saltmaster, autostart: true do |c|
+    c.vm.box = "ubuntu/xenial64"
+    c.vm.hostname = 'saltmaster-dev'
 
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.42.10"
+    c.vm.network "private_network", ip: "192.168.42.10"
+    c.vm.network 'forwarded_port', guest: 4505, host: 4505
+    c.vm.network 'forwarded_port', guest: 4506, host: 4506
 
-  # If true, then any SSH connections made will enable agent forwarding.
-  # Default value: false
-  config.ssh.forward_agent = true
+    c.ssh.forward_agent = true
 
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../../vbnfs", "/vbnfs"
+    c.vm.provider "virtualbox" do |vb|
+      # vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", "1024"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
+    end
 
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  config.vm.provider "virtualbox" do |vb|
-    # Don't boot with headless mode
-    # vb.gui = true
+    c.vm.synced_folder "salt", "/src/salt"
 
-    # RAM
-    vb.customize ["modifyvm", :id, "--memory", "3048"]
+    # c.vm.network "forwarded_port", guest: 80, host: 8001
+    # c.vm.network "forwarded_port", guest: 8080, host: 8002
 
-    # CPU cap
-    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
+    c.vm.provision :salt do |salt|
 
-    # Monitors
-    vb.customize ["modifyvm", :id, "--monitorcount", "2"]
+      salt.minion_config = "salt/configs/master_minion.conf"
+      salt.colorize = true
+      salt.verbose = true
+      salt.log_level = "error"
+      salt.run_highstate = false
+      salt.install_master = true
+      salt.no_minion = false
+      salt.bootstrap_options = '-P'  # Allow install of python packages via pip.
+      salt.master_key = "salt/keys/master_minion.pem"
+      salt.master_pub = "salt/keys/master_minion.pub"
+      salt.minion_key = "salt/keys/master_minion.pem"
+      salt.minion_pub = "salt/keys/master_minion.pub"
+      salt.seed_master = {
+        "saltmaster" => "salt/keys/master_minion.pub",
+        "minion1" => "salt/keys/minion1.pub",
+      }
+      salt.version = '2016.11.0'
 
-    # Video memory
-    # vb.customize ["modifyvm", :id, "--vram", "64"]
+    end
 
-    # Add cdrom drive
-    # vb.customize ["storagectl", :id, "--name", "IDEController", "--add", "ide"]
-    # vb.customize ["storageattach", :id, "--storagectl", "IDEController", "--port", "0",
-                  # "--device", "0", "--type", "dvddrive", "--medium", "emptydrive"]
-    # vb.customize ["modifyvm", :id, "--boot1", "disk", "--boot2", "dvd"]
+    c.vm.provision 'shell', inline: 'sudo /vagrant/setup_salt_dirs.sh'
   end
 
-  # Masterless salt configuration
-  config.vm.synced_folder "salt/roots/states", "/srv/salt/states"
-  config.vm.synced_folder "salt/roots/pillars", "/srv/salt/pillars"
-  config.vm.synced_folder "salt/roots/formulas/", "/srv/salt/formulas/"
+  config.vm.define :minion1 do |minion_config|
+    minion_config.vm.box = "ubuntu/trusty64"
+    minion_config.vm.host_name = 'minion1'
+    minion_config.vm.network "private_network", ip: "192.168.42.11"
 
-  config.vm.network "forwarded_port", guest: 80, host: 8001
-  config.vm.network "forwarded_port", guest: 8080, host: 8002
-
-  # Use all the defaults:
-  config.vm.provision :salt do |salt|
-
-    salt.minion_config = "salt/configs/minion.conf"
-    salt.colorize = true
-    salt.verbose = true
-    salt.log_level = "error"
-    salt.run_highstate = true
-
+    minion_config.vm.provision :salt do |salt|
+      salt.minion_config = "salt/configs/minion.conf"
+      salt.minion_key = "salt/keys/minion1.pem"
+      salt.minion_pub = "salt/keys/minion1.pub"
+      salt.install_type = "stable"
+      salt.verbose = true
+      salt.colorize = true
+      salt.bootstrap_options = "-P -c /tmp"
+      salt.run_highstate = false
+      salt.version = '2016.11.0'
+    end
   end
+
+  config.vm.define :winbox do |c|
+    c.vm.box = "Microsoft/EdgeOnWindows10"
+    c.vm.host_name = 'winbox'
+    c.vm.network "private_network", ip: "192.168.42.12"
+
+    c.vm.provision :salt do |salt|
+      salt.minion_config = "salt/configs/winbox.conf"
+      salt.minion_key = "salt/keys/minion2.pem"
+      salt.minion_pub = "salt/keys/minion2.pub"
+      salt.install_type = "stable"
+      salt.verbose = true
+      salt.colorize = true
+      salt.bootstrap_options = "-P -c /tmp"
+      salt.run_highstate = false
+      salt.version = '2016.11.0'
+    end
+  end
+
 end

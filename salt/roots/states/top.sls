@@ -19,3 +19,5 @@ base:
     - tools.phpmyadmin
     - tools.webgrind
     - kdiff
+  'saltmaster':
+    - salt.master

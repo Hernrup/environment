@@ -1,6 +1,57 @@
 # Environment
 Documentation for setting up a new environment
 
+## Installation
+
+### Saltmaster
+Install salt
+```
+curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
+# Install master
+sudo sh bootstrap-salt.sh -M -N git v2016.11.0
+# Install master-minion
+sudo sh bootstrap-salt.sh git v2016.11.0
+```
+
+Add config
+```
+cat /etc/salt/master
+
+fileserver_backend:
+  - roots
+  - git
+gitfs_remotes:
+  - git://github.com/saltstack-formulas/salt-formula.git
+
+```
+
+```
+cat /etc/salt/minion
+
+master: localhost
+```
+
+Apply saltmater configuration
+```
+sudo salt 'saltmaster' state.apply
+```
+
+### Minion
+
+```
+curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
+# Install master-minion
+sudo sh bootstrap-salt.sh git v2016.11.0
+```
+
+```
+cat /etc/salt/minion
+
+master: saltmaster
+id: my-box
+```
+
+
 ## Home box
 - [dotfiles](https://github.com/Hernrup/dotfiles)
 
