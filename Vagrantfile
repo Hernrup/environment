@@ -60,14 +60,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Masterless salt configuration
   config.vm.synced_folder "salt/roots/states", "/srv/salt/states"
   config.vm.synced_folder "salt/roots/pillars", "/srv/salt/pillars"
-
-  # Mount all drives
-  file_system = WIN32OLE.new("Scripting.FileSystemObject")
-  drives = file_system.Drives
-  drives.each do |drive|
-      # config.vm.synced_folder "#{drive.Path}", "/mnt/#{drive.DriveLetter.downcase}"
-      config.vm.synced_folder "C:", "/mnt/#{drive.DriveLetter.downcase}"
-  end
+  config.vm.synced_folder "salt/roots/formulas/", "/srv/salt/formulas/"
 
   config.vm.network "forwarded_port", guest: 80, host: 8001
   config.vm.network "forwarded_port", guest: 8080, host: 8002

@@ -1,6 +1,6 @@
 base:
   '*':
-    - base.sanity
+    - core
     - git
     - shell
     - wheel
@@ -8,4 +8,14 @@ base:
     # - desktop
     - dotfiles
     - python
+    - ssl
+    - git
+    - nodejs
+    - nginx
+    - php
+    - composer
+    - mysql
+    - redis
+    - tools.phpmyadmin
+    - tools.webgrind
     - kdiff
