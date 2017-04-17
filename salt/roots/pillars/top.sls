@@ -1,5 +1,6 @@
 base:
   'saltmaster':
+    - users
     - salt
     - sshd
   'mh-wsl':

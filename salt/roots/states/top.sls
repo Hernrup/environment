@@ -1,9 +1,10 @@
 base:
+  'saltmaster':
+    - users
+    - salt.master
+    - unix_dev_environment
   'mh-wsl':
     - users
     - unix_dev_environment
     - nodejs
-    - nginx
     - php_dev_environment
-  'saltmaster':
-    - salt.master

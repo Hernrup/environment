@@ -24,7 +24,7 @@ dotfiles:
 install_dotfiles_for_mhe:
   cmd.run:
     - name: python3 install_dot_files.py /home/mhe
-    - cwd: /src/dotfiles
+    - cwd: /home/mhe/src/dotfiles
     - require:
       - python
       - dotfiles
