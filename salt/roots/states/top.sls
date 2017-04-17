@@ -1,13 +1,19 @@
 base:
+  'mh-wsl':
+    - core
+    - git
+    - shell
+    - users
+    - sshd
+    - python
+    - dotfiles
   'dev':
     - core
     - git
     - shell
-    - wheel
     - users
     # - desktop
     - dotfiles
-    - python
     - ssl
     - git
     - nodejs
@@ -19,5 +25,6 @@ base:
     - tools.phpmyadmin
     - tools.webgrind
     - kdiff
+    - sshd
   'saltmaster':
     - salt.master

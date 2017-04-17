@@ -2,7 +2,8 @@ users:
   mhe:
     state: present
     fullname: MHE
-    empty_password: True
+    empty_password: False
+    password: $1$vHhXq6YT$dkUQW1zLOy3eQ549T4ebE0
     shell: /bin/zsh
     home: /home/mhe
     uid: 4000
