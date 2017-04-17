@@ -74,7 +74,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.define :winbox do |c|
-    c.vm.box = "Microsoft/EdgeOnWindows10"
+    c.vm.box = "opentable/win-2012r2-standard-amd64-nocm"
     c.vm.host_name = 'winbox'
     c.vm.network "private_network", ip: "192.168.42.12"
 
