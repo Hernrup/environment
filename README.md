@@ -1,22 +1,26 @@
 # Environment
 Documentation for setting up a new environment
 
-## Installation
-
-### Saltmaster
+## Saltmaster
 Install salt
+
 ```
 curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
-# Install master
-sudo sh bootstrap-salt.sh -M -N git v2016.11.0
-# Install master-minion
-sudo sh bootstrap-salt.sh git v2016.11.0
+sudo sh bootstrap-salt.sh -M stable 2016.11
 ```
 
-Add config
-```
-cat /etc/salt/master
+Link folders
 
+```
+ln -s salt/configs/master.conf /etc/salt/master
+ln -s salt/roots/states /srv/salt
+ln -s salt/roots/pillars /srv/pillar
+ln -s salt/roots/formulas /srv/formulas
+```
+
+Add config to `/etc/salt/master`
+
+```
 fileserver_backend:
   - roots
   - git
@@ -25,28 +29,22 @@ gitfs_remotes:
 
 ```
 
+Restart salt master
 ```
 service salt-master restart
 ```
 
-Apply saltmater configuration
+Apply configuration
 ```
 salt-call state.sls salt.master
 ```
 
-### Minion
+## Unix Minion
 
+Install salt
 ```
 curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
-# Install master-minion
-sudo sh bootstrap-salt.sh git v2016.11.0
-```
-
-```
-cat /etc/salt/minion
-
-master: saltmaster
-id: my-box
+sudo sh bootstrap-salt.sh stable 2016.11 -A saltmaster.hernrup.se -i <minion name>
 ```
 
 
@@ -68,7 +66,6 @@ id: my-box
 
 ## WSL setup
 
-
 ### SSHd
 - Edit port
 - enable empty password
@@ -78,10 +75,8 @@ sudo add-apt-repository ppa:jonathonf/vim
 sudo apt update
 sudo apt install vim-nox
 
-
 ### Base16 shell
 git clone https://github.com/chriskempson/base16-shell.git ~/.config/base16-shell
-
 
 ### Misc
 - zsh as default
