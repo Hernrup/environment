@@ -1,3 +1,6 @@
+include:
+  - python_build_tools
+
 /src:
   file.directory:
     - user:  mhe
@@ -26,3 +29,4 @@ install_dotfiles_for_mhe:
       - python
       - dotfiles
       - user: mhe
+      - python_build_tools
