@@ -7,6 +7,9 @@ base:
     - sshd
     - python
     - dotfiles
+    - ssl
+    - vim8
+    - base16shell
   'dev':
     - core
     - git
