@@ -46,7 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.minion_pub = "salt/keys/master_minion.pub"
       salt.seed_master = {
         "saltmaster" => "salt/keys/master_minion.pub",
-        "minion1" => "salt/keys/minion1.pub",
+        "mh-wsl" => "salt/keys/mh_wsl.pub",
       }
       salt.version = '2016.11.0'
 
@@ -55,15 +55,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     c.vm.provision 'shell', inline: 'sudo /vagrant/setup_salt_dirs.sh'
   end
 
-  config.vm.define :minion1 do |minion_config|
+  config.vm.define :mh_wsl do |minion_config|
     minion_config.vm.box = "ubuntu/trusty64"
-    minion_config.vm.host_name = 'minion1'
+    minion_config.vm.host_name = 'mh-wsl'
     minion_config.vm.network "private_network", ip: "192.168.42.11"
 
     minion_config.vm.provision :salt do |salt|
-      salt.minion_config = "salt/configs/minion.conf"
-      salt.minion_key = "salt/keys/minion1.pem"
-      salt.minion_pub = "salt/keys/minion1.pub"
+      salt.minion_config = "salt/configs/mh_wsl.conf"
+      salt.minion_key = "salt/keys/mh_wsl.pem"
+      salt.minion_pub = "salt/keys/mh_wsl.pub"
       salt.install_type = "stable"
       salt.verbose = true
       salt.colorize = true
