@@ -1,33 +1,9 @@
 base:
   'mh-wsl':
-    - core
-    - git
-    - shell
     - users
-    - sshd
-    - python
-    - dotfiles
-    - ssl
-    - vim8
-    - base16shell
-  'dev':
-    - core
-    - git
-    - shell
-    - users
-    # - desktop
-    - dotfiles
-    - ssl
-    - git
+    - unix_dev_environment
     - nodejs
     - nginx
-    - php
-    - composer
-    - mysql
-    - redis
-    - tools.phpmyadmin
-    - tools.webgrind
-    - kdiff
-    - sshd
+    - php_dev_environment
   'saltmaster':
     - salt.master

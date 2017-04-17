@@ -1,5 +1,7 @@
 https://github.com/phpmyadmin/phpmyadmin.git:
   git.latest:
-    - user: vagrant
+    - user: www-data
     - rev: STABLE
     - target: /var/www/tools/phpmyadmin
+    - require:
+      - /var/www/tools

@@ -1,6 +1,6 @@
-# php5_ppa:
-#   pkgrepo.managed:
-#     - ppa: ondrej/php
+php5_ppa:
+  pkgrepo.managed:
+    - ppa: ondrej/php
 
 php5-fpm:
   pkg.latest:
@@ -13,42 +13,38 @@ php5-fpm:
       - php7.0-mcrypt
       - php7.0-curl
       - php7.0-mysql
-      - php7.0-xdebug
-  service.running:
-    - watch:
-      - file: /etc/php/7.0/fpm/php.ini
-      - file: /etc/php/mods-available/xdebug.ini
+      - php-xdebug
 
 php-ini:
   file.managed:
     - name: /etc/php/7.0/fpm/php.ini
-    - source: salt://_files/php/php.ini
+    - source: salt://php/php.ini
     - template: jinja
     - require:
-      - pkg: php-fpm
+      - pkg: php5-fpm
 
 /var/lib/php:
   file:
     - directory
     - user: www-data
-    - group: vagrant
+    - group: www-data
     - mode: 775
     - makedirs: True
     - require:
-      - pkg: php-fpm
+      - pkg: php5-fpm
 
 php-cli-ini:
   file.managed:
-    - name: /etc/php/cli/php.ini
-    - source: salt://_files/php/php-cli.ini
+    - name: /etc/php/7.0/cli/php.ini
+    - source: salt://php/php-cli.ini
     - template: jinja
     - require:
       - file: php-ini
 
 xdebug-ini:
   file.managed:
-    - name: /etc/php/mods-available/xdebug.ini
-    - source: salt://_files/php/xdebug.ini
+    - name: /etc/php/7.0/mods-available/xdebug.ini
+    - source: salt://php/xdebug.ini
     - template: jinja
     - require:
       - pkg: php5-fpm

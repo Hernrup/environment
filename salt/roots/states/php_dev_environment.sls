@@ -1,0 +1,11 @@
+include:
+  - core
+  - git
+  - sshd
+  - nginx
+  - php
+  - composer
+  - mysql
+  - redis
+  - tools.phpmyadmin
+  - tools.webgrind

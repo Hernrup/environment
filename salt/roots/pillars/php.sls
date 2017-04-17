@@ -1,18 +1,3 @@
-nginx:
-  conf:
-    user: "www-data"
-    worker_processes: 4
-    worker_connections: 1024
-    error_log:
-      path: "/var/log/nginx/error.log"
-      level: "crit"
-    gzip: "on"
-  vhost:
-    port: 80
-    root: "/var/www/"
-    cache_static_files: "off"
-    error_log: "/var/log/nginx/application_error.log"
-
 php:
   display_errors: "On"
   display_startup_errors: "On"
@@ -40,7 +25,7 @@ mysql:
 
 redis:
   # see https://github.com/saltstack-formulas/redis-formula
-  user: vagrant
+  user: www-data
   port: 6379
 
 nodejs:

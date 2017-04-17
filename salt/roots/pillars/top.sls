@@ -1,10 +1,9 @@
 base:
   'saltmaster':
     - salt
+    - sshd
   'mh-wsl':
     - users
     - sshd_wsl
-  'dev':
-    - users
-    - configs
-    - sshd
+    - nginx
+    - php
