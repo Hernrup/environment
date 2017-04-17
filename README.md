@@ -26,14 +26,12 @@ gitfs_remotes:
 ```
 
 ```
-cat /etc/salt/minion
-
-master: localhost
+service salt-master restart
 ```
 
 Apply saltmater configuration
 ```
-sudo salt 'saltmaster' state.apply
+salt-call state.sls salt.master
 ```
 
 ### Minion

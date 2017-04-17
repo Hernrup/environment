@@ -1,5 +1,5 @@
 base:
-  '*':
+  'dev':
     - core
     - git
     - shell
