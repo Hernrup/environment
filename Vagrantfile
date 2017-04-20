@@ -47,8 +47,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.seed_master = {
         "saltmaster" => "salt/keys/master_minion.pub",
         "mh-wsl" => "salt/keys/mh_wsl.pub",
+        "mh" => "salt/keys/mh.pub",
       }
-      salt.version = '2016.11.0'
+      salt.install_type = "git"
+      salt.install_args = "v2016.11.0"
 
     end
 
@@ -69,25 +71,33 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.colorize = true
       salt.bootstrap_options = "-P -c /tmp"
       salt.run_highstate = false
-      salt.version = '2016.11.0'
+      salt.install_type = "git"
+      salt.install_args = "v2016.11.0"
     end
   end
 
-  config.vm.define :winbox do |c|
+  config.vm.define :mh do |c|
     c.vm.box = "opentable/win-2012r2-standard-amd64-nocm"
-    c.vm.host_name = 'winbox'
+    c.vm.host_name = 'mh'
     c.vm.network "private_network", ip: "192.168.42.12"
 
+    c.vm.provider "virtualbox" do |vb|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--memory", "2048"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "60"]
+    end
+
     c.vm.provision :salt do |salt|
-      salt.minion_config = "salt/configs/winbox.conf"
-      salt.minion_key = "salt/keys/minion2.pem"
-      salt.minion_pub = "salt/keys/minion2.pub"
+      salt.minion_config = "salt/configs/mh.conf"
+      salt.minion_key = "salt/keys/mh.pem"
+      salt.minion_pub = "salt/keys/mh.pub"
       salt.install_type = "stable"
       salt.verbose = true
       salt.colorize = true
       salt.bootstrap_options = "-P -c /tmp"
       salt.run_highstate = false
-      salt.version = '2016.11.0'
+      salt.install_type = "git"
+      salt.install_args = "v2016.11.0"
     end
   end
 

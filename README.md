@@ -13,9 +13,9 @@ Link folders
 
 ```
 ln -s salt/configs/master.conf /etc/salt/master
-ln -s salt/roots/states /srv/salt
-ln -s salt/roots/pillars /srv/pillar
-ln -s salt/roots/formulas /srv/formulas
+ln -s /src/salt/srv/salt /srv/salt
+ln -s /src/salt/srv/pillars /srv/pillar
+ln -s /src/salt/srv/formulas /srv/formulas
 ```
 
 Add config to `/etc/salt/master`
