@@ -52,6 +52,10 @@ def _get_cyg_dir(cyg_arch='x86_64'):
         'Invalid architecture {arch}'.format(arch=cyg_arch))
 
 
+def check_cygwin_installed(cyg_arch='x86_64'):
+    _check_cygwin_installed(cyg_arch='x86_64')
+
+
 def _check_cygwin_installed(cyg_arch='x86_64'):
     """
     Return True or False if cygwin is installed.
@@ -111,6 +115,7 @@ def check_valid_package(package,
 
         salt '*' cyg.check_valid_package <package name>
     '''
+
     if mirrors is None:
         mirrors = [{DEFAULT_MIRROR: DEFAULT_MIRROR_KEY}]
 
