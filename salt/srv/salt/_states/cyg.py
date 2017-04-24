@@ -23,6 +23,24 @@ def __virtual__():
     return 'cyg.list' in __salt__
 
 
+def binaries_installed(name, cyg_arch='x86_64'):
+    ret = {'name': name, 'result': None, 'comment': '', 'changes': {}}
+
+    if not __salt__['cyg.check_cygwin_installed'](cyg_arch=cyg_arch):
+        if __salt__['cyg.install_cygwin'](cyg_arch=cyg_arch):
+            ret['result'] = True
+            ret['comment'] = 'Cygwin was installed'
+            return ret
+        else:
+            ret['result'] = False
+            ret['comment'] = 'Failed to install cygwin'
+            return ret
+
+    ret['result'] = True
+    ret['comment'] = 'Cygwin is already installed'
+    return ret
+
+
 def installed(name,
               cyg_arch='x86_64',
               mirrors=None):
@@ -59,20 +77,19 @@ def installed(name,
         return ret
 
     LOG.debug('Installed State: Initial Mirror list: {0}'.format(mirrors))
-    if __salt__['cyg.check_cygwin_installed'](cyg_arch=cyg_arch):
 
-        if not __salt__['cyg.check_valid_package'](name,
-                                                   cyg_arch=cyg_arch,
-                                                   mirrors=mirrors):
-            ret['result'] = False
-            ret['comment'] = 'Invalid package name.'
-            return ret
+    if not __salt__['cyg.check_valid_package'](name,
+                                               cyg_arch=cyg_arch,
+                                               mirrors=mirrors):
+        ret['result'] = False
+        ret['comment'] = 'Invalid package name.'
+        return ret
 
-        pkgs = __salt__['cyg.list'](name, cyg_arch)
-        if name in pkgs:
-            ret['result'] = True
-            ret['comment'] = 'Package is already installed.'
-            return ret
+    pkgs = __salt__['cyg.list'](name, cyg_arch)
+    if name in pkgs:
+        ret['result'] = True
+        ret['comment'] = 'Package is already installed.'
+        return ret
 
     if __opts__['test']:
         ret['comment'] = 'The package {0} would\
@@ -125,18 +142,17 @@ def removed(name, cyg_arch='x86_64', mirrors=None):
  be one of \'x86\' or \'x86_64\''
         return ret
 
-    if __salt__['cyg.check_cygwin_installed'](cyg_arch=cyg_arch):
-        if not __salt__['cyg.check_valid_package'](name,
-                                                   cyg_arch=cyg_arch,
-                                                   mirrors=mirrors):
-            ret['result'] = False
-            ret['comment'] = 'Invalid package name.'
-            return ret
+    if not __salt__['cyg.check_valid_package'](name,
+                                               cyg_arch=cyg_arch,
+                                               mirrors=mirrors):
+        ret['result'] = False
+        ret['comment'] = 'Invalid package name.'
+        return ret
 
-        if name not in __salt__['cyg.list'](name, cyg_arch):
-            ret['result'] = True
-            ret['comment'] = 'Package is not installed.'
-            return ret
+    if name not in __salt__['cyg.list'](name, cyg_arch):
+        ret['result'] = True
+        ret['comment'] = 'Package is not installed.'
+        return ret
 
     if __opts__['test']:
         ret['comment'] = 'The package {0} would have been removed'.format(name)
@@ -191,11 +207,7 @@ def updated(name=None, cyg_arch='x86_64', mirrors=None):
     if not mirrors:
         LOG.warning('No mirror given, using the default.')
 
-    if __salt__['cyg.check_cygwin_installed'](cyg_arch=cyg_arch):
-        before = __salt__['cyg.list'](cyg_arch=cyg_arch)
-    else:
-        before = {}
-
+    before = __salt__['cyg.list'](cyg_arch=cyg_arch)
     if __salt__['cyg.update'](cyg_arch, mirrors=mirrors):
         after = __salt__['cyg.list'](cyg_arch=cyg_arch)
         differ = DictDiffer(after, before)

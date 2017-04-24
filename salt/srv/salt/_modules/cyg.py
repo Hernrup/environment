@@ -53,7 +53,11 @@ def _get_cyg_dir(cyg_arch='x86_64'):
 
 
 def check_cygwin_installed(cyg_arch='x86_64'):
-    _check_cygwin_installed(cyg_arch='x86_64')
+    return _check_cygwin_installed(cyg_arch='x86_64')
+
+
+def install_cygwin(cyg_arch='x86_64'):
+    return _run_silent_cygwin(cyg_arch=cyg_arch)
 
 
 def _check_cygwin_installed(cyg_arch='x86_64'):

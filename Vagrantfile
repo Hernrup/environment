@@ -50,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         "mh" => "salt/keys/mh.pub",
       }
       salt.install_type = "git"
-      salt.install_args = "v2016.11.0"
+      salt.install_args = "v2016.11.3"
 
     end
 
@@ -72,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.bootstrap_options = "-P -c /tmp"
       salt.run_highstate = false
       salt.install_type = "git"
-      salt.install_args = "v2016.11.0"
+      salt.install_args = "v2016.11.3"
     end
   end
 
@@ -94,10 +94,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.install_type = "stable"
       salt.verbose = true
       salt.colorize = true
-      salt.bootstrap_options = "-P -c /tmp"
+      # salt.bootstrap_options = "-P -c /tmp"
       salt.run_highstate = false
-      salt.install_type = "git"
-      salt.install_args = "v2016.11.0"
+      # salt.install_type = "git"
+      # salt.install_args = "v2016.11.0"
+      salt.version = "2016.11.3"
     end
   end
 

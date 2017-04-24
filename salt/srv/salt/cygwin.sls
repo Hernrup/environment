@@ -1,11 +1,18 @@
-bzip2:
-  cyg.installed
+include:
+  - windows
 
-cmake:
-  cyg.installed
+cygwin_installed:
+  cyg.binaries_installed
+
+bzip2:
+  cyg.installed:
+    - require:
+      - cyg: cygwin_installed
 
 crypt:
-  cyg.installed
+  cyg.installed:
+    - require:
+      - cyg: cygwin_installed
 
 ctags:
   cyg.installed
@@ -81,3 +88,4 @@ xterm:
 
 zsh:
   cyg.installed
+
