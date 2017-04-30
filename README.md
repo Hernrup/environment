@@ -39,6 +39,17 @@ Apply configuration
 salt-call state.sls salt.master
 ```
 
+Populate windows repository
+```
+salt-run winrepo.update_git_repos
+```
+
+Sync repo to windows minions
+```
+salt -G 'os:windows' pkg.refresh_db
+```
+
+
 ## Generic Unix Minion
 
 Install salt
