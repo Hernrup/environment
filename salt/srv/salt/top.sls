@@ -7,6 +7,10 @@ base:
     - users
     - python_win
     - cygwin
+  'mh-unix-ws':
+    - users
+    - unix_dev_environment
+    - gnome3
   'mh-wsl':
     - users
     - sshd
