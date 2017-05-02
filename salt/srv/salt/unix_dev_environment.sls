@@ -2,7 +2,6 @@ include:
   - core
   - git
   - shell
-  - sshd
   - python
   - dotfiles
   - ssl

@@ -9,6 +9,7 @@ base:
     - cygwin
   'mh-wsl':
     - users
+    - sshd
     - unix_dev_environment
     - nodejs
     - php_dev_environment
