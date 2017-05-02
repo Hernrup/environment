@@ -6,7 +6,6 @@ users:
     password: $1$KonJs5sc$OZzEhKoyGOKQsFSErjPP60
     shell: /bin/zsh
     home: /home/mhe
-    uid: 4000
     groups:
       - wheel
     pubkeys:

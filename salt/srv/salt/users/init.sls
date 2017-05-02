@@ -20,7 +20,6 @@ wheel:
     - password: {{user.password}}
     - empty_password: {{user.empty_password}}
     - home: {{user.home}}
-    - uid: {{user.uid}}
     - groups: {{user.groups}}
 
 {% for key_id, key in user.get('pubkeys', {}).items() %}
