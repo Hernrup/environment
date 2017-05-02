@@ -7,6 +7,10 @@ base:
     - users
     - python_win
     - cygwin
+  'll-unix-ws':
+    - users
+    - unix_dev_environment
+    - gnome3
   'mh-unix-ws':
     - users
     - unix_dev_environment
