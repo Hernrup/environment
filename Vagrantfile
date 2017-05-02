@@ -47,6 +47,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       salt.seed_master = {
         "saltmaster" => "salt/keys/master_minion.pub",
         "mh-wsl" => "salt/keys/mh_wsl.pub",
+        "mh-unix-ws" => "salt/keys/mh_unix_ws.pub",
         "mh" => "salt/keys/mh.pub",
       }
       salt.install_type = "git"
@@ -56,6 +57,44 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     c.vm.provision 'shell', inline: 'sudo /vagrant/setup_salt_dirs.sh'
   end
+
+  config.vm.define :mh_unix_ws do |minion_config|
+    minion_config.vm.box = "ubuntu/xenial64"
+    minion_config.vm.host_name = 'mh-unix-ws'
+    minion_config.vm.network "private_network", ip: "192.168.42.13"
+
+    minion_config.vm.provider "virtualbox" do |vb|
+      vb.gui = true
+      vb.customize ["modifyvm", :id, "--monitorcount", "2"]
+      vb.customize ["modifyvm", :id, "--memory", "8000"]
+      vb.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
+      vb.customize ["modifyvm", :id, "--cpus", "4"]
+      vb.customize ["modifyvm", :id, "--vram", "128"]
+      vb.customize ["modifyvm", :id, "--accelerate3d", "on"]
+    end
+
+    config.vm.provision "shell", inline: "sudo apt-get update"
+    config.vm.provision "shell", inline: "sudo apt-get install -y virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11"
+    config.vm.provision "shell", inline: "sudo VBoxClient --clipboard && 
+        sudo VBoxClient --draganddrop && 
+        sudo VBoxClient --display && 
+        sudo VBoxClient --checkhostversion && 
+        sudo VBoxClient --seamless"
+
+    minion_config.vm.provision :salt do |salt|
+      salt.minion_config = "salt/configs/mh_unix_ws.conf"
+      salt.minion_key = "salt/keys/mh_unix_ws.pem"
+      salt.minion_pub = "salt/keys/mh_unix_ws.pub"
+      salt.install_type = "stable"
+      salt.verbose = true
+      salt.colorize = true
+      salt.bootstrap_options = "-P -c /tmp"
+      salt.run_highstate = false
+      salt.install_type = "git"
+      salt.install_args = "v2016.11.3"
+    end
+  end
+
 
   config.vm.define :mh_wsl do |minion_config|
     minion_config.vm.box = "ubuntu/trusty64"
