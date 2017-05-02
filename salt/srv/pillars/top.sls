@@ -3,6 +3,8 @@ base:
     - users
     - salt
     - sshd
+  'mh-unix-ws':
+    - users
   'mh-wsl':
     - users
     - sshd_wsl
