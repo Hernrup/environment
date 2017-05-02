@@ -11,6 +11,7 @@ base:
     - users
     - unix_dev_environment
     - gnome3
+    - chrome
   'mh-unix-ws':
     - users
     - unix_dev_environment
