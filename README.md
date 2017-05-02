@@ -9,29 +9,25 @@ curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
 sudo sh bootstrap-salt.sh -M stable 2016.11
 ```
 
+Clone repo
+
+```
+cd /src
+git clone <...>
+```
+
 Link folders
 
 ```
-ln -s salt/configs/master.conf /etc/salt/master
-ln -s /src/salt/srv/salt /srv/salt
-ln -s /src/salt/srv/pillars /srv/pillar
-ln -s /src/salt/srv/formulas /srv/formulas
-```
-
-Add config to `/etc/salt/master`
-
-```
-fileserver_backend:
-  - roots
-  - git
-gitfs_remotes:
-  - git://github.com/saltstack-formulas/salt-formula.git
-
+sudo ln -s /src/environment/salt/configs/master.conf /etc/salt/master
+sudo ln -s /src/environment/salt/srv/salt /srv/salt
+sudo ln -s /src/environment/salt/srv/pillars /srv/pillar
+sudo ln -s /src/environment/salt/srv/formulas /srv/formulas
 ```
 
 Restart salt master
 ```
-service salt-master restart
+sudo service salt-master restart
 ```
 
 Apply configuration
