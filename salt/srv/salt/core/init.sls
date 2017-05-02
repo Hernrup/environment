@@ -1,7 +1,6 @@
 core:
   pkg.installed:
     - names:
-      - vim
       - tmux
       - htop
       - curl
