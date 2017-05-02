@@ -7,3 +7,4 @@ include:
   - ssl
   - vim8
   - base16shell
+  - nerdfonts

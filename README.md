@@ -64,6 +64,11 @@ sudo sh bootstrap-salt.sh stable 2016.11 -A saltmaster.hernrup.se -i <minion nam
 Salt-Minion-2016.11.3-AMD64-Setup.exe /S /master saltmaster.hernrup.se /minion-name=mh
 ```
 
+### Install nerdfonts
+```
+http://nerdfonts.com/
+```
+
 ### Software requiring manual Installations
 - chocholate
 - q-dir
