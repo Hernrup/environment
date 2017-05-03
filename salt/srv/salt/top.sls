@@ -12,6 +12,12 @@ base:
     - unix_dev_environment
     - gnome3
     - chrome
+    - packer
+    - docker
+    - terraform
+    - consul.install
+    - consul.service
+    - consul-template
   'mh-unix-ws':
     - users
     - unix_dev_environment

@@ -6,6 +6,8 @@ salt:
       - git
     gitfs_remotes:
       - git://github.com/saltstack-formulas/salt-formula.git
+      - git://github.com/saltstack-formulas/docker-formula.git
+      - git://github.com/saltstack-formulas/consul-formula.git
     file_roots:
       base:
         - /srv/salt
