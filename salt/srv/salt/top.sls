@@ -7,13 +7,23 @@ base:
     - users
     - python_win
     - cygwin
+  '72M43H2':
+    - users
+    - unix_dev_environment
+    - desktop
+    - chrome
+    - docker
+    - docker.compose
+    - packer
+    - terraform
   'll-unix-ws':
     - users
     - unix_dev_environment
-    - gnome3
+    - desktop
     - chrome
     - packer
     - docker
+    - docker.compose
     - terraform
     - consul.install
     - consul.service
@@ -21,7 +31,10 @@ base:
   'mh-unix-ws':
     - users
     - unix_dev_environment
-    - gnome3
+    - desktop
+    - chrome
+    - docker
+    - docker.compose
   'mh-wsl':
     - users
     - sshd
