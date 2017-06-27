@@ -11,10 +11,10 @@ echo 'install docker'
 sudo apt install docker-ce docker-compose -y
 sudo usermod -aG docker mhe
 
-echo 'install packer'
-sudo apt install packer -y
+echo 'install packer tools'
+sudo apt install packer vagrant -y
 
-echo 'install terraform'
+#terraform
 mkdir -p ~/.build/terraform
 pushd ~/.build/terraform
 wget https://releases.hashicorp.com/terraform/0.9.8/terraform_0.9.8_linux_amd64.zip

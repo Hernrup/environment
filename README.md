@@ -1,59 +1,12 @@
 # Environment
 Documentation for setting up a new environment
 
-## Saltmaster
-Install salt
+## Generic Unix Dev Enviornmen
 
+Install
 ```
-curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
-sudo sh bootstrap-salt.sh -M stable 2016.11
+./setup_unix_dev.sh
 ```
-
-Clone repo
-
-```
-cd /src
-git clone <...>
-```
-
-Link folders
-
-```
-sudo ln -s /src/environment/salt/configs/master.conf /etc/salt/master
-sudo ln -s /src/environment/salt/srv/salt /srv/salt
-sudo ln -s /src/environment/salt/srv/pillars /srv/pillar
-sudo ln -s /src/environment/salt/srv/formulas /srv/formulas
-```
-
-Restart salt master
-```
-sudo service salt-master restart
-```
-
-Apply configuration
-```
-salt-call state.sls salt.master
-```
-
-Populate windows repository
-```
-salt-run winrepo.update_git_repos
-```
-
-Sync repo to windows minions
-```
-salt -G 'os:windows' pkg.refresh_db
-```
-
-
-## Generic Unix Minion
-
-Install salt
-```
-curl -o bootstrap-salt.sh -L https://bootstrap.saltstack.com
-sudo sh bootstrap-salt.sh stable 2016.11 -A saltmaster.hernrup.se -i <minion name>
-```
-
 
 ## MH
 ```
