@@ -16,14 +16,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     c.ssh.forward_agent = true
 
     c.vm.provider "virtualbox" do |vb|
-      # vb.gui = true
+      vb.gui = true
       vb.customize ["modifyvm", :id, "--memory", "1024"]
       vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
     end
 
     c.vm.synced_folder ".", "/src"
 
-    c.vm.provision 'shell', inline: 'sudo /src/setup_unix_dev.sh'
+    c.vm.provision 'shell', inline: '/bin/bash -c "cd /src; ./setup_unix_dev.sh"'
   end
 
   config.vm.define :win, autostart: false do |c|
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     c.vm.synced_folder ".", "/src"
 
-    c.vm.provision 'shell', inline: 'sudo /src/setup_win_dev.ps'
+    c.vm.provision 'shell', inline: 'cd c:/src; ./setup_win_dev.ps'
   end
 
 end
