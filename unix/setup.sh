@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-. ./core/sh
+. ./ppa.sh
+. ./core.sh
 . ./network.sh
 . ./desktop.sh
 . ./shell.sh
-. ./python.sh
-. ./utils.sh
 . ./fonts.sh
+. ./utils.sh
 . ./dotfiles.sh
