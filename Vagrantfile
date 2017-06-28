@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define :unix, autostart: false do |c|
-    c.vm.box = "ubuntu/xenial64"
+    c.vm.box = "ubuntu/zesty64"
     c.vm.hostname = 'unix-dev'
 
     c.vm.network "private_network", ip: "192.168.42.10"
