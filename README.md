@@ -5,8 +5,12 @@ Documentation for setting up a new environment
 
 Install
 ```
-./setup_unix_dev.sh
+./setup_<env>.sh
 ```
+
+### Manual considerations
+- tmux plugins, install by ctrl+b+I
+- vim plugins, install by plug install
 
 ## MH
 ```
