@@ -4,6 +4,9 @@ set -e
 sudo sed -i 's/allowed_users=.*$/allowed_users=anybody/' /etc/X11/Xwrapper.config
 sudo apt install ubuntu-gnome-desktop
 
+# Install xsel for clipboard suport through tmux-yank plugin
+sudo apt install xsel
+
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-1 "['<Super>1']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-2 "['<Super>2']"
 gsettings set org.gnome.desktop.wm.keybindings switch-to-workspace-3 "['<Super>3']"
