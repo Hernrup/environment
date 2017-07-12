@@ -2,7 +2,7 @@ version: "3"
 services:
     ssl:
         image: certbot/certbot:latest
-        command: certonly --webroot --webroot-path=/data/letsencrypt -d test.hernrup.se --agree-tos --email mikael@hernrup.se --verbose --renew-by-default
+        command: certonly --webroot --webroot-path=/data/letsencrypt -d test.hernrup.se --agree-tos --email mikael@hernrup.se --renew-by-default
         volumes:
             - .data/etc/letsencrypt:/etc/letsencrypt
             - .data/data/letsencrypt:/data/letsencrypt
