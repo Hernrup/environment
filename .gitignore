@@ -1,3 +1,5 @@
 venv
 .vagrant
 *.log
+.data
+nodes/srv/.data
