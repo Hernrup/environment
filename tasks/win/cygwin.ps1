@@ -14,6 +14,9 @@ iex "$install_file --local-package-dir $cache_dir --no-desktop --quiet-mode --pa
 iex "c:\cygwin64\bin\bash.exe --login -c ssh-host-config --yes"
 iex "c:\cygwin64\bin\bash.exe --login -c 'cygrunsrv -S sshd'"
 
+# Install cron
+iex "c:\cygwin64\bin\bash.exe --login -c 'cron-config'"
+
 $Shell = New-Object -ComObject ("WScript.Shell")
 $ShortCut = $Shell.CreateShortcut($env:USERPROFILE + "\Desktop\Cygwin.lnk")
 $ShortCut.TargetPath="C:\cygwin64\bin\mintty.exe"
