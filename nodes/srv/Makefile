@@ -6,7 +6,7 @@ ssl-standalone:
 	docker-compose up ssl-standalone
 
 run:
-	docker-compose up plex nginx
+	docker-compose up -d plex req sonarr nzb potatoe nginx
 
 stop:
 	docker-compose down
