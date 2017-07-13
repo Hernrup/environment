@@ -47,6 +47,13 @@ services:
 
     sonarr:
         image: linuxserver/sonarr
+        ports:
+            - "8989:8989"
+        volumes:
+            - .data/etc/sonarr:/config
+            - .data/data/sonarr/tv:/tv
+            - .data/data/downloads/tv:/downloads
+
     nzb:
         image: linuxserver/sabnzbd
     potatoe:

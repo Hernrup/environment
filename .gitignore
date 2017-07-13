@@ -3,3 +3,4 @@ venv
 *.log
 .data
 nodes/srv/.data
+nodes/srv/.env
