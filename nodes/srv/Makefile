@@ -6,10 +6,13 @@ ssl-standalone:
 	docker-compose up ssl-standalone
 
 run:
-	docker-compose up -d plex req sonarr nzb potatoe nginx
+	docker-compose up -d plex sonarr nzb potatoe nginx registry req
 
 stop:
 	docker-compose down
+
+logs:
+	docker-compose logs -f --tail 50
 
 open:
 	sensible-browser tv.hernrup.se

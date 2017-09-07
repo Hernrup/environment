@@ -2,7 +2,7 @@ version: "3"
 services:
     ssl-standalone:
         image: certbot/certbot:latest
-        command: certonly --standalone --agree-tos --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY --verbose
+        command: certonly --standalone --agree-tos --cert-name hernrup.se --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY --verbose
         volumes:
             - .data/etc/letsencrypt:/etc/letsencrypt
             - .data/data/letsencrypt:/data/letsencrypt
@@ -11,7 +11,7 @@ services:
             - "443:443"
     ssl:
         image: certbot/certbot:latest
-        command: certonly --webroot --webroot-path=/data/letsencrypt --agree-tos --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY
+        command: certonly --webroot --cert-name hernrup.se --webroot-path=/data/letsencrypt --agree-tos --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY
         volumes:
             - .data/etc/letsencrypt:/etc/letsencrypt
             - .data/data/letsencrypt:/data/letsencrypt
@@ -31,11 +31,10 @@ services:
         image: linuxserver/plexrequests
         volumes:
             - .data/etc/plexrequests:/config
-        ports:
-            - "3000:3000"
+        # ports:
+            # - "8104:3000"
         environment:
-            #- URL_BASE=/req.hernrup.se
-            - TEST=TEST
+            - URL_BASE=/req.hernrup.se
 
     plex:
         image: linuxserver/plex
@@ -53,42 +52,43 @@ services:
 
     sonarr:
         image: linuxserver/sonarr
-        ports:
-            - "8989:8989"
+        # ports:
+            # - "8103:8989"
         volumes:
-            - .data/etc/sonarr:/config
-            - .data/data/sonarr/tv:/tv
-            - .data/data/downloads/tv:/downloads
+            - ".data/etc/sonarr:/config"
+            - "${TV_DIR}:/tv"
+            - .data/data/downloads:/downloads
 
     nzb:
         image: linuxserver/sabnzbd
         volumes:
-            - .data/etc/nzb/sabnzbd.ini:/config/sabnzbd.ini
-            # - .data/etc/nzb:/config
-        ports:
-            - "8080:8080"
+            - .data/data/downloads:/downloads
+            - .data/data/nzb/incomplete:/incomplete-downloads
+            - .data/etc/nzb:/config
+        # ports:
+            # - "8102:8080"
 
     potatoe:
         image: linuxserver/couchpotato
         volumes:
             - ".data/etc/couchpotatoe:/config"
-            - ".data/data/couchpotatoe:/downloads"
+            - ".data/data/downloads:/downloads"
             - "${MOVIE_DIR}:/movies"
-        ports:
-            - "5050:5050"
+        # ports:
+            # - "8101:5050"
 
     registry:
         restart: always
         image: registry:2
-        ports:
-            - 8101:5000
+        # ports:
+            # - 8107:5000
         # environment:
-            # REGISTRY_HTTP_TLS_CERTIFICATE: /certs/domain.crt
-            # REGISTRY_HTTP_TLS_KEY: /certs/domain.key
+            # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/fullchain.pem
+            # - REGISTRY_HTTP_TLS_KEY=/certs/privkey.pem
             # REGISTRY_AUTH: htpasswd
             # REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
             # REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
         volumes:
-            - ".data/registry:/var/lib/registry"
-            # - /path/certs:/certs
+            - ".data/docker-registry:/var/lib/registry"
+            - .data/etc/letsencrypt/live/hernrup.se:/certs
             # - /path/auth:/auth
