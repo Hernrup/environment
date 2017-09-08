@@ -8,7 +8,7 @@ iex "md -Force $cache_dir"
 Invoke-WebRequest -Uri https://cygwin.com/setup-x86_64.exe -OutFile $install_file
 
 # install cygwin + packages
-iex "$install_file --local-package-dir $cache_dir --no-desktop --quiet-mode --packages bzip2,crypt,ctags,cygutils,cygutils-extra,cygwin32-gcc-core,cygwin32-gcc-objc,cygwin32-gcc-objc++,fzf-zsh-completion,gcc-core,gcc-objc,gcc-objc++,git,git-completion,gzip,mintty,openssh,openssl,python,python3,rsync,sed,tmux,vim,xclip,xterm,zsh,cmake"
+iex "$install_file --local-package-dir $cache_dir --no-desktop --quiet-mode --packages bzip2,crypt,ctags,cygutils,cygutils-extra,cygwin32-gcc-core,cygwin32-gcc-objc,cygwin32-gcc-objc++,fzf-zsh-completion,gcc-core,gcc-objc,gcc-objc++,git,git-completion,gzip,mintty,openssh,openssl,python,python3,rsync,sed,tmux,vim,xclip,xterm,zsh,cmake,make,mingw64-x86_64-gcc-g++"
 
 # Install ssh
 iex "c:\cygwin64\bin\bash.exe --login -c ssh-host-config --yes"
