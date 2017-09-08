@@ -18,26 +18,21 @@ services:
 
     nginx:
         image: nginx
+        restart: always
         volumes:
             - .data/etc/letsencrypt:/etc/letsencrypt
             - .data/data/letsencrypt:/data/letsencrypt
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ./nginx/snippets:/etc/nginx/snippets
+            - .data/etc/.htpasswd:/etc/.htpasswd
         ports:
             - "80:80"
             - "443:443"
-    req:
-        image: linuxserver/plexrequests
-        volumes:
-            - .data/etc/plexrequests:/config
-        # ports:
-            # - "8104:3000"
-        environment:
-            - URL_BASE=/req.hernrup.se
 
     plex:
         image: linuxserver/plex
+        restart: always
         volumes:
             - .data/etc/plex:/config
             - ${TV_DIR}:/data/tvshows
@@ -47,13 +42,11 @@ services:
             - "32400:32400/udp"
             - "32469:32469"
             - "32469:32469/udp"
-              #- "5353:5353/udp"
             - "1900:1900/udp"
 
     sonarr:
         image: linuxserver/sonarr
-        # ports:
-            # - "8103:8989"
+        restart: always
         volumes:
             - ".data/etc/sonarr:/config"
             - "${TV_DIR}:/tv"
@@ -61,34 +54,28 @@ services:
 
     nzb:
         image: linuxserver/sabnzbd
+        restart: always
         volumes:
             - .data/data/downloads:/downloads
             - .data/data/nzb/incomplete:/incomplete-downloads
             - .data/etc/nzb:/config
-        # ports:
-            # - "8102:8080"
 
     potatoe:
         image: linuxserver/couchpotato
+        restart: always
         volumes:
             - ".data/etc/couchpotatoe:/config"
             - ".data/data/downloads:/downloads"
             - "${MOVIE_DIR}:/movies"
-        # ports:
-            # - "8101:5050"
 
     registry:
         restart: always
         image: registry:2
-        # ports:
-            # - 8107:5000
-        # environment:
-            # - REGISTRY_HTTP_TLS_CERTIFICATE=/certs/fullchain.pem
-            # - REGISTRY_HTTP_TLS_KEY=/certs/privkey.pem
-            # REGISTRY_AUTH: htpasswd
-            # REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
-            # REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
+        environment:
+            REGISTRY_AUTH: htpasswd
+            REGISTRY_AUTH_HTPASSWD_PATH: /etc/.htpasswd
+            REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
         volumes:
             - ".data/docker-registry:/var/lib/registry"
             - .data/etc/letsencrypt/live/hernrup.se:/certs
-            # - /path/auth:/auth
+            - /data/etc/.htpasswd:/etc/.htpasswd
