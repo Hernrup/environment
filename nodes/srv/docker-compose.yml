@@ -89,16 +89,16 @@ services:
 
     backup:
         image: docker.hernrup.se/hernrup/backup:develop
+        restart: always
         build:
             context: ./backupninja
         volumes:
             - .data/backupninja/.ssh:/root/.ssh
             - ./backupninja/backupninja.conf:/etc/backupninja.conf
             - ./backupninja/ssmtp.conf:/etc/ssmtp/ssmtp.conf
-            - ./backupninja/backup.d:/etc/backup.d
+            - ./backupninja/backup.d:/etc/backup_actions
             - /mnt/media_1:/mnt/media_1
-            - /mnt/backup_local:/mnt/backup_local
-            - /tmp:/tmp
+            # - /mnt/backup_local:/mnt/backup_local
         depends_on:
             - smtp
 
