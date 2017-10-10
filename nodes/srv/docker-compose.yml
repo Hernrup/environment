@@ -29,14 +29,21 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        depends_on:
+            - plex
+            - sonarr
+            - nzb
+            - potatoe
+            - registry
 
     plex:
         image: linuxserver/plex
         restart: always
         volumes:
-            - .data/plex/etc:/config
+            - .data/plex:/config
             - ${TV_DIR}:/data/tvshows
             - ${MOVIE_DIR}:/data/movies
+        # network_mode: host
         ports:
             - "32400:32400"
             - "32400:32400/udp"
@@ -92,6 +99,8 @@ services:
             - /mnt/media_1:/mnt/media_1
             - /mnt/backup_local:/mnt/backup_local
             - /tmp:/tmp
+        depends_on:
+            - smtp
 
     smtp:
         image: namshi/smtp

@@ -1,6 +1,7 @@
-.PHONY: lint run run-debug logs shell stop clean migrate
+.PHONY: setup start stop clean
 
 setup: setup-dependecies setup-smb-conf setup-fstab setup-backup
+	start
 
 setup-backup: setup-backup-ssh-keys
 
@@ -27,20 +28,13 @@ ssl-standalone:
 	docker-compose up ssl-standalone
 
 start:
-	docker-compose up -d plex sonarr nzb potatoe registry nginx
+	docker-compose up -d plex sonarr nzb potatoe registry nginx backup
 
 stop:
 	docker-compose down
 
 logs:
 	docker-compose logs -f --tail 50
-
-open:
-	sensible-browser tv.hernrup.se
-	sensible-browser plex.hernrup.se
-	sensible-browser movie.hernrup.se
-	sensible-browser req.hernrup.se
-	sensible-browser nzb.hernrup.se
 
 backup:
 	docker-compose run --rm backup backupninja -n
