@@ -37,7 +37,7 @@ logs:
 	docker-compose logs -f --tail 50
 
 backup:
-	docker-compose run --rm backup backupninja -n
+	docker-compose run --rm backup /run_now.sh
 
 setup-backup-ssh-keys:
 	docker-compose run --rm backup ssh-keygen -b 2048 -t rsa -f /root/.ssh/id_rsa -q -N "" || true
