@@ -4,8 +4,8 @@ services:
         image: certbot/certbot:latest
         command: certonly --standalone --agree-tos --cert-name hernrup.se --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY --verbose
         volumes:
-            - .data/etc/letsencrypt:/etc/letsencrypt
-            - .data/data/letsencrypt:/data/letsencrypt
+            - .data/letsencrypt/etc:/etc/letsencrypt
+            - .data/letsencrypt/data:/data/letsencrypt
         ports:
             - "80:80"
             - "443:443"
@@ -13,15 +13,15 @@ services:
         image: certbot/certbot:latest
         command: certonly --webroot --cert-name hernrup.se --webroot-path=/data/letsencrypt --agree-tos --email $LETSENCRYPT_EMAIL --renew-by-default $LETSENCRYPT_DOMAINS $LETSENCRYPT_DRY
         volumes:
-            - .data/etc/letsencrypt:/etc/letsencrypt
-            - .data/data/letsencrypt:/data/letsencrypt
+            - .data/letsencrypt/etc:/etc/letsencrypt
+            - .data/letsencrypt/data:/data/letsencrypt
 
     nginx:
         image: nginx
         restart: always
         volumes:
-            - .data/etc/letsencrypt:/etc/letsencrypt
-            - .data/data/letsencrypt:/data/letsencrypt
+            - .data/letsencrypt/etc:/etc/letsencrypt
+            - .data/letsencrypt/data:/data/letsencrypt
             - ./nginx/nginx.conf:/etc/nginx/nginx.conf
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ./nginx/snippets:/etc/nginx/snippets
@@ -34,7 +34,7 @@ services:
         image: linuxserver/plex
         restart: always
         volumes:
-            - .data/etc/plex:/config
+            - .data/plex/etc:/config
             - ${TV_DIR}:/data/tvshows
             - ${MOVIE_DIR}:/data/movies
         ports:
@@ -48,24 +48,24 @@ services:
         image: linuxserver/sonarr
         restart: always
         volumes:
-            - ".data/etc/sonarr:/config"
+            - ".data/sonarr/etc:/config"
             - "${TV_DIR}:/tv"
-            - .data/data/downloads:/downloads
+            - .data/downloads:/downloads
 
     nzb:
         image: linuxserver/sabnzbd
         restart: always
         volumes:
-            - .data/data/downloads:/downloads
-            - .data/data/nzb/incomplete:/incomplete-downloads
-            - .data/etc/nzb:/config
+            - .data/downloads:/downloads
+            - .data/nzb/incomplete:/incomplete-downloads
+            - .data/nzb/etc:/config
 
     potatoe:
         image: linuxserver/couchpotato
         restart: always
         volumes:
-            - ".data/etc/couchpotatoe:/config"
-            - ".data/data/downloads:/downloads"
+            - ".data/couchpotatoe/etc:/config"
+            - ".data/downloads:/downloads"
             - "${MOVIE_DIR}:/movies"
 
     registry:
@@ -77,5 +77,27 @@ services:
             REGISTRY_AUTH_HTPASSWD_REALM: Registry Realm
         volumes:
             - ".data/docker-registry:/var/lib/registry"
-            - .data/etc/letsencrypt/live/hernrup.se:/certs
-            - /data/etc/.htpasswd:/etc/.htpasswd
+            - .data/letsencrypt/etc/live/hernrup.se:/certs
+            - /data/.htpasswd:/etc/.htpasswd
+
+    backup:
+        image: docker.hernrup.se/hernrup/backup:develop
+        build:
+            context: ./backupninja
+        volumes:
+            - .data/backupninja/.ssh:/root/.ssh
+            - ./backupninja/backupninja.conf:/etc/backupninja.conf
+            - ./backupninja/ssmtp.conf:/etc/ssmtp/ssmtp.conf
+            - ./backupninja/backup.d:/etc/backup.d
+            - /mnt/media_1:/mnt/media_1
+            - /mnt/backup_local:/mnt/backup_local
+            - /tmp:/tmp
+
+    smtp:
+        image: namshi/smtp
+        ports:
+            - "25:25"
+        environment:
+            GMAIL_USER: ${GMAIL_USER}
+            GMAIL_PASSWORD: ${GMAIL_PASSWORD}
+            MAILNAME: hernrup.se
