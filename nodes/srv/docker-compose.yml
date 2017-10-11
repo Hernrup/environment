@@ -96,17 +96,24 @@ services:
             - .data/backupninja/.ssh:/root/.ssh
             - ./backupninja/backupninja.conf:/etc/backupninja.conf
             - ./backupninja/ssmtp.conf:/etc/ssmtp/ssmtp.conf
-            - ./backupninja/backup.d:/etc/backup_actions
+            - ./backupninja/backup.d:/etc/backupninja
             - /mnt/media_1:/mnt/media_1
-            # - /mnt/backup_local:/mnt/backup_local
-        depends_on:
-            - smtp
-
-    smtp:
-        image: namshi/smtp
-        ports:
-            - "25:25"
-        environment:
-            GMAIL_USER: ${GMAIL_USER}
-            GMAIL_PASSWORD: ${GMAIL_PASSWORD}
-            MAILNAME: hernrup.se
+        # depends_on:
+            # - smtp
+    #
+    # smtp:
+    #     image: namshi/smtp
+    #     ports:
+    #         - "25:25"
+    #     environment:
+    #         GMAIL_USER: ${GMAIL_USER}
+    #         GMAIL_PASSWORD: ${GMAIL_PASSWORD}
+    #         MAILNAME: hernrup.se
+    #         # RELAY_NETWORKS: :0.0.0.0/0
+    #         # SMARTHOST_ADDRESS: ${SMTP_HOST}
+    #         # SMARTHOST_USER: ${SMTP_USER}
+    #         # SMARTHOST_PASSWORD: ${SMTP_PASSWORD}
+    #         # SMARTHOST_PORT: ${SMTP_PORT}
+    #         # SMARTHOST_ALIASES: "*.binero.se"
+    #     restart: always
+    #

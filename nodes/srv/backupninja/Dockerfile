@@ -24,5 +24,6 @@ RUN rm -f /etc/cron.d/backupninja
 RUN mkdir -p /root/.ssh
 ADD run.sh /run.sh
 ADD run_now.sh /run_now.sh
+add prepare.sh /prepare.sh
 
 CMD ["/run.sh"]
