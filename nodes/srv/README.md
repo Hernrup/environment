@@ -23,11 +23,6 @@ Schedule ssl renewal
 schedule `make ssl` using cron, cygwin cron or windows task scheduler
 ```
 
-Setup ssh keys for backup
-```
-make setup-backup-ssh-keys
-```
-
 Start services
 ```
 make start

@@ -1,7 +1,6 @@
 .PHONY: setup start stop clean
 
 setup: setup-dependecies setup-smb-conf setup-fstab setup-backup
-	start
 
 setup-backup: setup-backup-ssh-keys
 
