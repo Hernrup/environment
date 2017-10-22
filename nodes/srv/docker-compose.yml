@@ -35,6 +35,8 @@ services:
             - nzb
             - potatoe
             - registry
+        # links:
+            # - vpn:nzb
 
     plex:
         image: linuxserver/plex
@@ -58,6 +60,10 @@ services:
             - ".data/sonarr/etc:/config"
             - "${TV_DIR}:/tv"
             - .data/downloads:/downloads
+        # depends_on:
+            # - vpn
+        # links:
+            # - vpn:nzb
 
     nzb:
         image: linuxserver/sabnzbd
@@ -66,6 +72,10 @@ services:
             - .data/downloads:/downloads
             - .data/nzb/incomplete:/incomplete-downloads
             - .data/nzb/etc:/config
+        # depends_on:
+            # - vpn
+        # network_mode:
+            # "service:vpn"
 
     potatoe:
         image: linuxserver/couchpotato
@@ -86,6 +96,13 @@ services:
             - ".data/docker-registry:/var/lib/registry"
             - .data/letsencrypt/etc/live/hernrup.se:/certs
             - .data/registry/auth:/auth
+
+    vpn:
+        image: dperson/openvpn-client
+        cap_add:
+            - NET_ADMIN
+        volumes:
+            - .data/vpn:/vpn
 
     backup:
         image: docker.hernrup.se/hernrup/backup:develop
