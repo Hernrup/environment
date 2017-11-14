@@ -9,5 +9,5 @@ BACKUP_DECLARATIONS=${BACKUP_DECLARATIONS:-/etc/backup.d}
 
 . /prepare.sh
 
-echo "* * * * * /usr/sbin/backupninja -d > ${STDOUT_LOC} 2> ${STDERR_LOC}" | crontab -
+echo "* * * * * /usr/sbin/backupninja > ${STDOUT_LOC} 2> ${STDERR_LOC}" | crontab -
 exec cron -f

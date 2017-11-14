@@ -4,4 +4,4 @@ set -e
 
 . /prepare.sh
 
-exec /usr/sbin/backupninja -d -n
+exec /usr/sbin/backupninja -n
